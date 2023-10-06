@@ -1,0 +1,40 @@
+for ( int i = 0; i < 5; i1 ) {
+a = b;
+}
+
+for ( int i = 0; i < 5; i ++ ) {
+float a;
+a + b;
+}
+
+int i = 0;
+while ( i < 5 ) {
+a = b;
+}
+
+int i = 0;
+while ( i | 5 ) {
+a = b;
+}
+
+int holaMundo = j;
+
+int a;
+int b;
+float c;
+float d
+
+	
+while ( d == 1 ) {
+
+        int ja;
+		resp = 1;
+
+		for ( i = n; i >= 1; --i)
+		{
+
+				ja ° resp;
+
+		}
+
+	}
