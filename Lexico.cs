@@ -1180,6 +1180,20 @@
                                 return false;
                             }
                         }
+                       /* else if (LToken[0].General() == "Operador")
+                        {
+                            if (LToken[1].General() == "Identificador")
+                            {
+                                if (LToken[2].General() == "Caracter" && LToken[2].Caracteres == ")")
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                        } */
                         else
                         {
                             return false;
@@ -1187,7 +1201,7 @@
                     }
                 }
                 //WHILE//                
-                if (LToken[0].Caracteres == "while")
+                /*if (LToken[0].Caracteres == "while")
                 {
                     if (LToken[1].Caracteres == "(")
                     {
@@ -1217,8 +1231,8 @@
                             {
                                 return false;
                             }
-                        }
-                        else if (LToken[2].Caracteres == "(")
+                        } */
+                        /*else if (LToken[2].Caracteres == "(")
                         {
                             // WHILE COMPUESTO //
                             bool Flag = false;
@@ -1271,7 +1285,7 @@
                                 GeneralC++;
                             }
                             return Flag;
-                        }
+                        }*/
                         else
                         {
                             return false;
@@ -1283,7 +1297,7 @@
                     }
                 }
                 //SWITCH//              
-                if (LToken[0].Caracteres == "switch")
+                /*if (LToken[0].Caracteres == "switch")
                 {
                     if (LToken[1].Caracteres == "(")
                     {
@@ -1383,7 +1397,7 @@
                         return false;
                     }
 
-                }
+                }*/
                 //COUT//
                 if(LToken[0].Caracteres=="cout")
                 {
