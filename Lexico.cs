@@ -1059,6 +1059,7 @@
                     }
                 }
                 // FOR //
+                /*
                 if (LToken[0].Caracteres == "for" || CFor != 0)
                 {
                     // PARTE 1//
@@ -1180,7 +1181,7 @@
                                 return false;
                             }
                         }
-                       /* else if (LToken[0].General() == "Operador")
+                       else if (LToken[0].General() == "Operador")
                         {
                             if (LToken[1].General() == "Identificador")
                             {
@@ -1193,15 +1194,17 @@
                                     return false;
                                 }
                             }
-                        } */
+                        }
                         else
                         {
                             return false;
                         }
                     }
                 }
-                //WHILE//                
-                /*if (LToken[0].Caracteres == "while")
+                */
+                //WHILE//
+                /*
+                if (LToken[0].Caracteres == "while")
                 {
                     if (LToken[1].Caracteres == "(")
                     {
@@ -1231,8 +1234,8 @@
                             {
                                 return false;
                             }
-                        } */
-                        /*else if (LToken[2].Caracteres == "(")
+                        }
+                        else if (LToken[2].Caracteres == "(")
                         {
                             // WHILE COMPUESTO //
                             bool Flag = false;
@@ -1285,7 +1288,7 @@
                                 GeneralC++;
                             }
                             return Flag;
-                        }*/
+                        }
                         else
                         {
                             return false;
@@ -1296,8 +1299,9 @@
                         return false;
                     }
                 }
+                */
                 //SWITCH//              
-                /*if (LToken[0].Caracteres == "switch")
+                /* if (LToken[0].Caracteres == "switch")
                 {
                     if (LToken[1].Caracteres == "(")
                     {
