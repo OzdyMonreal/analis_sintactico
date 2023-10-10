@@ -143,9 +143,10 @@
                                 }
                             }
 
-                            //ES UNA CONSTANTE//
+                            //ES UNA CONSTANTE ---- MODIFICAR POR NUMERO//
                             else if (FlagNum == true && FlagLetter == false)
                             {
+
                                 AddToken(StringAux, "Constante", "Constante");
                                 FlagLetter = false;
                                 FlagNum = false;
@@ -1058,8 +1059,8 @@
                         return false;
                     }
                 }
+
                 // FOR //
-                /*
                 if (LToken[0].Caracteres == "for" || CFor != 0)
                 {
                     // PARTE 1//
@@ -1201,9 +1202,9 @@
                         }
                     }
                 }
-                */
+                
                 //WHILE//
-                /*
+                
                 if (LToken[0].Caracteres == "while")
                 {
                     if (LToken[1].Caracteres == "(")
@@ -1299,9 +1300,9 @@
                         return false;
                     }
                 }
-                */
+                
                 //SWITCH//              
-                /* if (LToken[0].Caracteres == "switch")
+                if (LToken[0].Caracteres == "switch")
                 {
                     if (LToken[1].Caracteres == "(")
                     {
@@ -1401,7 +1402,7 @@
                         return false;
                     }
 
-                }*/
+                }
                 //COUT//
                 if(LToken[0].Caracteres=="cout")
                 {
