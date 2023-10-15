@@ -1496,13 +1496,13 @@
             {
 
                 //SI ES UNA VARIABLE//
-                if (LToken[0].General() == "Identificador")
+                if (LToken.Count > 1 && LToken[0].General() == "Identificador")
                 {
                     //SI TIENE UN OPERADOR//
-                    if (LToken[1].General() == "Operador") // AGREGAR QUE OPERADORES //
+                    if (LToken.Count > 2 && LToken[1].General() == "Operador") // AGREGAR QUE OPERADORES //
                     {
                         bool Flag = false; int i = 2;
-                        if(LToken[1].Caracteres=="++"|| LToken[1].Caracteres == "--")
+                        if(LToken.Count > 3 && LToken[1].Caracteres=="++"|| LToken[1].Caracteres == "--")
                         {
                             return true;
                         }
