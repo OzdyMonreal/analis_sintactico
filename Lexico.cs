@@ -857,16 +857,16 @@
                 // IF //
                 if (LToken[0].Caracteres == "if")
                 {
-                    if (LToken[1].Caracteres == "(")
+                    if (LToken.Count > 2 && LToken[1].Caracteres == "(")
                     {
                         // IF SIMPLE //
-                        if (LToken[2].General() == "Identificador")
+                        if ((LToken[2].General() == "Identificador"))
                         {
-                            if (LToken.Count > 5 && (LToken[3].General() == "Operador"))
+                            if (LToken.Count > 3 && (LToken[3].General() == "Operador"))
                             {
-                                if (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante")
+                                if (LToken.Count > 4 && (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante"))
                                 {
-                                    if (LToken[5].Caracteres == ")")
+                                    if (LToken.Count > 5 && (LToken[5].Caracteres == ")"))
                                     {
                                         return true;
                                     }
@@ -885,7 +885,7 @@
                                 return false;
                             }
                         }
-                        else if (LToken[2].Caracteres == "(")
+                        else if (LToken.Count > 4 && LToken[2].Caracteres == "(")
                         {
                             // IF COMPUESTO //
                             bool Flag = false;
@@ -975,15 +975,15 @@
                     //ELSE IF SIMPLE//
                     else if (LToken[1].Caracteres == "if")
                     {
-                        if(LToken.Count > 5 && (LToken[2].Caracteres=="("))
+                        if(LToken.Count > 3 && (LToken[2].Caracteres=="("))
                         {
-                            if (LToken[3].General() == "Identificador")
+                            if (LToken.Count > 4 && LToken[3].General() == "Identificador")
                             {
-                                if (LToken[4].General() == "Operador")
+                                if (LToken.Count > 5 && LToken[4].General() == "Operador")
                                 {
-                                    if (LToken[5].General()=="Identificador" || LToken[5].General()=="Constante")
+                                    if (LToken.Count > 6 && (LToken[5].General()=="Identificador" || LToken[5].General()=="Constante"))
                                     {
-                                        if(LToken[6].Caracteres==")")
+                                        if(LToken.Count > 7 && LToken[6].Caracteres==")")
                                         {
                                             return true;
                                         }
@@ -1002,7 +1002,7 @@
                                     return false;
                                 }
                             }
-                            else if (LToken[2].Caracteres == "(")
+                            else if (LToken.Count > 3 && LToken[2].Caracteres == "(")
                             {
                                 // ELSE IF COMPUESTO //
                                 bool Flag = false;
