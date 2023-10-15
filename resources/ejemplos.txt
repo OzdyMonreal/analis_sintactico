@@ -1,39 +1,44 @@
-for ( int i = 0; i < 5; i1 ) {
-a = b;
+for ( int i = 0; i < 5; i ++ ) {
+    if ( a == b ) {
+        a = b;
+    }
+    else {
+        int b + 10 = 10;
+    }
 }
 
 for ( int i = 0; i < 5; i ++ ) {
-float a;
-a + b;
+float a
+a + b
 }
 
 int i = 0;
 while ( i < 5 ) {
-a = b;
+a = b
 }
 
-int i = 0;
+int i = ;
 while ( i | 5 ) {
-a = b;
+a = b
 }
 
-int holaMundo = j;
+int holaMundo = j
 
-int a;
-int b;
-float c;
+int a
+int b
+float c
 float d
 
 	
 while ( d == 1 ) {
 
         int ja;
-		resp = 1;
+		resp = 1
 
-		for ( i = n; i >= 1; --i)
+		for ( i = n; i >= 1; -- i )
 		{
 
-				ja ° resp;
+				ja ° resp
 
 		}
 

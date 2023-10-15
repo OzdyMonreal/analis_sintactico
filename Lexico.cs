@@ -1,5 +1,6 @@
 ﻿namespace Analizador_Lexico__Traductor_
 {
+    using System;
     internal class Lexico
     {
         //ATRIBUTOS//
@@ -72,7 +73,7 @@
                         }
 
                         //SALTO DE LINEA O ;//
-                        else if (char.IsWhiteSpace(Character) || Character == ';')
+                        else if (char.IsWhiteSpace(Character) || Character == ';' || IsSpace(Character))
                         {
                             if (Instrucciones.Count!=0)
                             {
@@ -861,7 +862,7 @@
                         // IF SIMPLE //
                         if (LToken[2].General() == "Identificador")
                         {
-                            if (LToken[3].General() == "Operador")
+                            if (LToken.Count > 5 && (LToken[3].General() == "Operador"))
                             {
                                 if (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante")
                                 {
@@ -955,15 +956,26 @@
                     {
                         return false;
                     }
+                    
                     if (LToken.Count == 1)
                     {
                         IF = false;
+                        return false;
+                    }
+
+                    if (LToken[1].Caracteres == "{")
+                    {
+                        if (IF == false)
+                        {
+                            return false;
+                        }
                         return true;
                     }
+                    
                     //ELSE IF SIMPLE//
                     else if (LToken[1].Caracteres == "if")
                     {
-                        if(LToken[2].Caracteres=="(")
+                        if(LToken.Count > 5 && (LToken[2].Caracteres=="("))
                         {
                             if (LToken[3].General() == "Identificador")
                             {
@@ -1058,6 +1070,7 @@
                     {
                         return false;
                     }
+
                 }
 
                 // FOR //
@@ -1066,28 +1079,26 @@
                     // PARTE 1//
                     if (CFor == 0)
                     {
-
                         if (LToken[1].Caracteres == "(")
                         {
-
                             if (LToken[2].General() == "Tipo de Dato")
                             {
 
-                                if (LToken[3].General() == "Identificador")
+                                
+                                if (LToken.Count > 5 && (LToken[3].General() == "Identificador"))
                                 {
 
                                     if (LToken[4].General() == "Operador")
                                     {
-
-                                        if (LToken[5].General() == "Identificador" || LToken[5].General() == "Constante")
-                                        {
-                                            CFor++;
-                                            return true;
-                                        }
-                                        else
-                                        {
-                                            return false;
-                                        }
+                                            if (LToken[5].General() == "Identificador" || LToken[5].General() == "Constante")
+                                            {
+                                                CFor++;
+                                                return true;
+                                            }
+                                            else
+                                            {
+                                                return false;
+                                            }
                                     }
                                     else
                                     {
@@ -1101,7 +1112,8 @@
                             }
                             else if (LToken[2].General() == "Identificador")
                             {
-                                if (LToken[3].General() == "Operador" && LToken[3].Caracteres == "=")
+                                
+                                if (LToken.Count > 4 && (LToken[3].General() == "Operador" && LToken[3].Caracteres == "="))
                                 {
                                     if (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante")
                                     {
@@ -1117,7 +1129,6 @@
                                 {
                                     return false;
                                 }
-
                             }
                             else
                             {
@@ -1133,7 +1144,7 @@
                     // PARTE 2 //
                     else if (CFor == 1)
                     {
-                        if (LToken[0].General() == "Identificador")
+                        if ((LToken[0].General() == "Identificador"))
                         {
                             if (LToken[1].General() == "Operador")
                             {
@@ -1166,21 +1177,21 @@
                         CFor = 0;
                         if (LToken[0].General() == "Identificador")
                         {
-                            if (LToken[1].General() == "Operador")
-                            {
-                                if (LToken[2].General() == "Caracter" && LToken[2].Caracteres == ")")
+                                if (LToken.Count > 3 && LToken[1].General() == "Operador")
                                 {
-                                    return true;
+                                    if (LToken[2].General() == "Caracter" && LToken[2].Caracteres == ")")
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
                                 }
                                 else
                                 {
                                     return false;
                                 }
-                            }
-                            else
-                            {
-                                return false;
-                            }
                         }
                        else if (LToken[0].General() == "Operador")
                         {
@@ -1207,12 +1218,12 @@
                 
                 if (LToken[0].Caracteres == "while")
                 {
-                    if (LToken[1].Caracteres == "(")
+                    if (LToken.Count > 2 && (LToken[1].Caracteres == "("))
                     {
                         // WHILE SIMPLE //
                         if (LToken[2].General() == "Identificador")
                         {
-                            if (LToken[3].General() == "Operador")
+                            if (LToken.Count > 5 && LToken[3].General() == "Operador")
                             {
                                 if (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante")
                                 {
@@ -1235,6 +1246,8 @@
                             {
                                 return false;
                             }
+                            
+
                         }
                         else if (LToken[2].Caracteres == "(")
                         {

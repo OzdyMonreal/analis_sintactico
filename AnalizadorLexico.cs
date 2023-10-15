@@ -31,7 +31,7 @@ namespace Analizador_Lexico__Traductor_
         //ABRIR TXT//
         private void abrirToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if(OpenFile.ShowDialog()==DialogResult.OK)
+            if (OpenFile.ShowDialog() == DialogResult.OK)
             {
                 TBCode.Text = File.ReadAllText(OpenFile.FileName);
             }
@@ -86,8 +86,8 @@ namespace Analizador_Lexico__Traductor_
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           
-            
+
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -97,7 +97,7 @@ namespace Analizador_Lexico__Traductor_
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
+            textBox2.ScrollBars = ScrollBars.Vertical;
         }
     }
 }

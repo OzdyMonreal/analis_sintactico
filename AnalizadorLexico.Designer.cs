@@ -29,167 +29,153 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.Menu = new System.Windows.Forms.MenuStrip();
-            this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.abrirToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.guardarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.traducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.limpiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TBCode = new System.Windows.Forms.TextBox();
-            this.DGSintaxis = new System.Windows.Forms.DataGridView();
-            this.DGErrores = new System.Windows.Forms.DataGridView();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.Menu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGSintaxis)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DGErrores)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
+            Menu = new MenuStrip();
+            archivoToolStripMenuItem = new ToolStripMenuItem();
+            abrirToolStripMenuItem1 = new ToolStripMenuItem();
+            traducirToolStripMenuItem = new ToolStripMenuItem();
+            limpiarToolStripMenuItem = new ToolStripMenuItem();
+            TBCode = new TextBox();
+            DGSintaxis = new DataGridView();
+            DGErrores = new DataGridView();
+            pictureBox1 = new PictureBox();
+            textBox2 = new TextBox();
+            Menu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DGSintaxis).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DGErrores).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            SuspendLayout();
             // 
             // Menu
             // 
-            this.Menu.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Menu.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archivoToolStripMenuItem,
-            this.traducirToolStripMenuItem,
-            this.limpiarToolStripMenuItem});
-            this.Menu.Location = new System.Drawing.Point(0, 0);
-            this.Menu.Name = "Menu";
-            this.Menu.Padding = new System.Windows.Forms.Padding(11, 4, 0, 4);
-            this.Menu.Size = new System.Drawing.Size(1433, 40);
-            this.Menu.TabIndex = 2;
-            this.Menu.Text = "Menu";
-            this.Menu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.Menu_ItemClicked);
+            Menu.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            Menu.ImageScalingSize = new Size(24, 24);
+            Menu.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem, traducirToolStripMenuItem, limpiarToolStripMenuItem });
+            Menu.Location = new Point(0, 0);
+            Menu.Name = "Menu";
+            Menu.Padding = new Padding(11, 4, 0, 4);
+            Menu.Size = new Size(1433, 40);
+            Menu.TabIndex = 2;
+            Menu.Text = "Menu";
+            Menu.ItemClicked += Menu_ItemClicked;
             // 
             // archivoToolStripMenuItem
             // 
-            this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.abrirToolStripMenuItem1,
-            this.guardarToolStripMenuItem});
-            this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(95, 32);
-            this.archivoToolStripMenuItem.Text = "Archivo";
+            archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { abrirToolStripMenuItem1 });
+            archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
+            archivoToolStripMenuItem.Size = new Size(95, 32);
+            archivoToolStripMenuItem.Text = "Archivo";
             // 
             // abrirToolStripMenuItem1
             // 
-            this.abrirToolStripMenuItem1.Name = "abrirToolStripMenuItem1";
-            this.abrirToolStripMenuItem1.Size = new System.Drawing.Size(185, 36);
-            this.abrirToolStripMenuItem1.Text = "Abrir";
-            this.abrirToolStripMenuItem1.Click += new System.EventHandler(this.abrirToolStripMenuItem1_Click);
-            // 
-            // guardarToolStripMenuItem
-            // 
-            this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
-            this.guardarToolStripMenuItem.Size = new System.Drawing.Size(185, 36);
-            this.guardarToolStripMenuItem.Text = "Guardar";
-            this.guardarToolStripMenuItem.Click += new System.EventHandler(this.guardarToolStripMenuItem_Click);
+            abrirToolStripMenuItem1.Name = "abrirToolStripMenuItem1";
+            abrirToolStripMenuItem1.Size = new Size(270, 36);
+            abrirToolStripMenuItem1.Text = "Abrir";
+            abrirToolStripMenuItem1.Click += abrirToolStripMenuItem1_Click;
             // 
             // traducirToolStripMenuItem
             // 
-            this.traducirToolStripMenuItem.Name = "traducirToolStripMenuItem";
-            this.traducirToolStripMenuItem.Size = new System.Drawing.Size(98, 32);
-            this.traducirToolStripMenuItem.Text = "Analizar";
-            this.traducirToolStripMenuItem.Click += new System.EventHandler(this.traducirToolStripMenuItem_Click);
+            traducirToolStripMenuItem.Name = "traducirToolStripMenuItem";
+            traducirToolStripMenuItem.Size = new Size(98, 32);
+            traducirToolStripMenuItem.Text = "Analizar";
+            traducirToolStripMenuItem.Click += traducirToolStripMenuItem_Click;
             // 
             // limpiarToolStripMenuItem
             // 
-            this.limpiarToolStripMenuItem.Name = "limpiarToolStripMenuItem";
-            this.limpiarToolStripMenuItem.Size = new System.Drawing.Size(93, 32);
-            this.limpiarToolStripMenuItem.Text = "Limpiar";
-            this.limpiarToolStripMenuItem.Click += new System.EventHandler(this.limpiarToolStripMenuItem_Click);
+            limpiarToolStripMenuItem.Name = "limpiarToolStripMenuItem";
+            limpiarToolStripMenuItem.Size = new Size(93, 32);
+            limpiarToolStripMenuItem.Text = "Limpiar";
+            limpiarToolStripMenuItem.Click += limpiarToolStripMenuItem_Click;
             // 
             // TBCode
             // 
-            this.TBCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            this.TBCode.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TBCode.Location = new System.Drawing.Point(20, 205);
-            this.TBCode.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.TBCode.Multiline = true;
-            this.TBCode.Name = "TBCode";
-            this.TBCode.PlaceholderText = "Escribe el código aquí. . .";
-            this.TBCode.Size = new System.Drawing.Size(1095, 287);
-            this.TBCode.TabIndex = 3;
-            this.TBCode.TextChanged += new System.EventHandler(this.TBCode_TextChanged);
+            TBCode.BackColor = Color.FromArgb(243, 243, 243);
+            TBCode.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
+            TBCode.Location = new Point(20, 205);
+            TBCode.Margin = new Padding(5, 6, 5, 6);
+            TBCode.Multiline = true;
+            TBCode.Name = "TBCode";
+            TBCode.PlaceholderText = "Escribe el código aquí. . .";
+            TBCode.Size = new Size(1095, 287);
+            TBCode.TabIndex = 3;
+            TBCode.TextChanged += TBCode_TextChanged;
             // 
             // DGSintaxis
             // 
-            this.DGSintaxis.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.DGSintaxis.BackgroundColor = System.Drawing.Color.Gainsboro;
-            this.DGSintaxis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGSintaxis.Location = new System.Drawing.Point(20, 532);
-            this.DGSintaxis.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.DGSintaxis.Name = "DGSintaxis";
-            this.DGSintaxis.RowHeadersWidth = 62;
-            this.DGSintaxis.RowTemplate.Height = 25;
-            this.DGSintaxis.Size = new System.Drawing.Size(573, 746);
-            this.DGSintaxis.TabIndex = 4;
+            DGSintaxis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DGSintaxis.BackgroundColor = Color.Gainsboro;
+            DGSintaxis.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGSintaxis.Location = new Point(20, 532);
+            DGSintaxis.Margin = new Padding(5, 6, 5, 6);
+            DGSintaxis.Name = "DGSintaxis";
+            DGSintaxis.RowHeadersWidth = 62;
+            DGSintaxis.RowTemplate.Height = 25;
+            DGSintaxis.Size = new Size(573, 746);
+            DGSintaxis.TabIndex = 4;
             // 
             // DGErrores
             // 
-            this.DGErrores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.DGErrores.BackgroundColor = System.Drawing.Color.Gainsboro;
-            this.DGErrores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGErrores.Location = new System.Drawing.Point(624, 532);
-            this.DGErrores.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.DGErrores.Name = "DGErrores";
-            this.DGErrores.RowHeadersWidth = 62;
-            this.DGErrores.RowTemplate.Height = 25;
-            this.DGErrores.Size = new System.Drawing.Size(788, 746);
-            this.DGErrores.TabIndex = 5;
+            DGErrores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DGErrores.BackgroundColor = Color.Gainsboro;
+            DGErrores.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGErrores.Location = new Point(624, 532);
+            DGErrores.Margin = new Padding(5, 6, 5, 6);
+            DGErrores.Name = "DGErrores";
+            DGErrores.RowHeadersWidth = 62;
+            DGErrores.RowTemplate.Height = 25;
+            DGErrores.Size = new Size(788, 746);
+            DGErrores.TabIndex = 5;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1175, 43);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(226, 303);
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(1175, 43);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(226, 303);
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // textBox2
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(53)))), ((int)(((byte)(76)))));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBox2.Location = new System.Drawing.Point(423, 80);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(384, 94);
-            this.textBox2.TabIndex = 8;
-            this.textBox2.Text = "Analizador";
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            textBox2.BackColor = Color.FromArgb(222, 53, 76);
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Font = new Font("Segoe UI", 35F, FontStyle.Bold, GraphicsUnit.Point);
+            textBox2.Location = new Point(423, 80);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(384, 94);
+            textBox2.TabIndex = 8;
+            textBox2.Text = "Analizador";
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(53)))), ((int)(((byte)(76)))));
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1433, 1050);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.DGErrores);
-            this.Controls.Add(this.DGSintaxis);
-            this.Controls.Add(this.TBCode);
-            this.Controls.Add(this.Menu);
-            this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.Menu;
-            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Analizador Sintactico";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.Menu.ResumeLayout(false);
-            this.Menu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGSintaxis)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DGErrores)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(222, 53, 76);
+            BackgroundImageLayout = ImageLayout.None;
+            ClientSize = new Size(1433, 1050);
+            Controls.Add(textBox2);
+            Controls.Add(pictureBox1);
+            Controls.Add(DGErrores);
+            Controls.Add(DGSintaxis);
+            Controls.Add(TBCode);
+            Controls.Add(Menu);
+            DoubleBuffered = true;
+            Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = Menu;
+            Margin = new Padding(5, 6, 5, 6);
+            Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Analizador Sintactico";
+            Load += Form1_Load;
+            Menu.ResumeLayout(false);
+            Menu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)DGSintaxis).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DGErrores).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -200,7 +186,6 @@
         private ToolStripMenuItem limpiarToolStripMenuItem;
         private TextBox TBCode;
         private DataGridView DGSintaxis;
-        private ToolStripMenuItem guardarToolStripMenuItem;
         private DataGridView DGErrores;
         private PictureBox pictureBox1;
         private TextBox textBox2;
