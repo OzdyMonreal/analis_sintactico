@@ -27,10 +27,10 @@ a = b
 
 int holaMundo = j
 
-int a
-int b
-float c
-float d
+int a;
+int b;
+float c;
+float d;
 
 	
 while ( d == 1 ) {
