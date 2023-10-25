@@ -10,6 +10,10 @@ for ( int i = 0; i < 5; i ++ ) {
     }
 }
 
+cin >> "a";
+
+cout << id;
+
 for ( int i = 0; i < 5; i ++ ) {
 float a
 a + b
@@ -41,7 +45,7 @@ while ( d == 1 ) {
 		for ( i = n; i >= 1; -- i )
 		{
 
-				ja ° resp
+				int ja ° resp
 
 		}
 
