@@ -1,6 +1,9 @@
 ﻿namespace Analizador_Lexico__Traductor_
 {
     using System;
+    using System.Text.RegularExpressions;
+    using System.Collections.Generic;
+
     internal class Lexico
     {
         //ATRIBUTOS//
@@ -9,7 +12,7 @@
         private List<Token> LTokens;
         private List<Token> Instrucciones;
         public List<Error> Errors;
-        
+
         //CONTADORES SINTACTICOS//
         public int CFor;
         public int CParentesis;
@@ -35,9 +38,9 @@
             bool FlagNum = false, FlagLetter = false;
 
             CFor = 0;
-            CParentesis=0;
-            CCorchetes=0;
-            IF= false;
+            CParentesis = 0;
+            CCorchetes = 0;
+            IF = false;
             SWITCH = false;
             Cad = false;
             //RECORRER EL CODIGO//
@@ -64,7 +67,7 @@
                                 FlagLetter = true;
                             }
                         }
-                        else if(Character=='"')
+                        else if (Character == '"')
                         {
                             StringAux += Character;
                             Cad = true;
@@ -75,11 +78,11 @@
                         //SALTO DE LINEA O ;//
                         else if (char.IsWhiteSpace(Character) || Character == ';' || IsSpace(Character))
                         {
-                            if (Instrucciones.Count!=0)
+                            if (Instrucciones.Count != 0)
                             {
                                 Sintactico();
                                 State = 0;
-                            }                            
+                            }
                         }
 
                         //CARACTER ESPECIAL//
@@ -160,11 +163,22 @@
                             //SINO ES UNA VARIABLE//
                             else
                             {
-                                AddToken(StringAux, "Identificador", "Identificador");
-                                FlagLetter = false;
-                                FlagNum = false;
+                                if (EsIdentificadorValido(StringAux))
+                                {
+                                    AddToken(StringAux, "Identificador", "Identificador");
+                                    FlagLetter = false;
+                                    FlagNum = false;
+                                }
+                                else
+                                {
+                                    Error error = new Error(StringAux, "Error Léxico. Variable NO valida.");
+                                    Errors.Add(error);
+                                    AddToken(StringAux, "Variable NO valida.", "Variable NO valida.");
+                                    FlagLetter = false;
+                                    FlagNum = false;
+                                }
                             }
-                            
+
                         }
                         break;
 
@@ -187,8 +201,8 @@
                         {
                             StringAux += Character;
                         }
-                        
-                        
+
+
                         //FIN DE LA CAPTURA//
                         else if (IsSpace(Character) || Character == ';')
                         {
@@ -203,7 +217,7 @@
                             {
                                 State = 0;
                             }
-                            else if (Character==';')
+                            else if (Character == ';')
                             {
                                 Sintactico();
                                 State = 0;
@@ -216,7 +230,7 @@
                                 Errors.Add(error);
                                 AddToken(StringAux, "Caracter No Valido", "NULL");
                             }
-                            
+
                         }
                         break;
                 }
@@ -250,6 +264,18 @@
                     Errors.Add(error);
                 }
             }
+            else
+            {
+                // Verificar si no hay errores y mostrar el mensaje de éxito
+                if (Errors.Count == 0)
+                {
+                    string Cadena = "";
+                    Error error = new(Cadena, "El codigo se ejecuto correctamente");
+                    Errors.Add(error);
+                    Instrucciones.Clear();
+                }
+            }
+
             return LTokens;
 
 
@@ -636,7 +662,7 @@
                 return true;
             }
             else if (str == "{")
-            {               
+            {
                 AddToken(str, "Corchete de Apertura", "Caracter");
                 CCorchetes++;
                 return true;
@@ -668,16 +694,15 @@
             }
         }
 
-        //ANALIZADOR SINTACTICO//
+        //////////ANALIZADOR SINTACTICO///////////////////////////////////////////////////////////
 
-        //TIPO DE ARBOL//
+        //TIPO DE ARBOL
         void Sintactico()
         {
-          
             if (Instrucciones[0].Caracteres == "{" || Instrucciones[0].Caracteres == "}")
             {
                 Instrucciones.Clear();
-            }       
+            }
             else if (Instrucciones[0].General() == "Tipo de Dato" && CFor == 0)
             {
                 bool Flag = VarOrConst(Instrucciones);
@@ -688,7 +713,7 @@
                     {
                         Cadena += Instrucciones[i].Caracteres + " ";
                     }
-                    Error error = new Error(Cadena, "La declaracion de un nuevo Tipo de Dato no es correcta");
+                    Error error = new Error(Cadena, "La declaración de un nuevo Tipo de Dato no es correcta");
                     Errors.Add(error);
                     Instrucciones.Clear();
                 }
@@ -716,7 +741,7 @@
                     Instrucciones.Clear();
                 }
             }
-            else if (Instrucciones[0].General() == "Palabra Reservada" || CFor>0)
+            else if (Instrucciones[0].General() == "Palabra Reservada" || CFor > 0)
             {
                 bool Flag = Pal(Instrucciones);
                 if (Flag == false)
@@ -726,7 +751,7 @@
                     {
                         Cadena += Instrucciones[i].Caracteres + " ";
                     }
-                    Error error = new Error(Cadena, "El uso de la palabra reservada no es valido");
+                    Error error = new Error(Cadena, "El uso de la palabra reservada no es válido");
                     Errors.Add(error);
                     Instrucciones.Clear();
                 }
@@ -735,63 +760,131 @@
                     Instrucciones.Clear();
                 }
             }
-            
+            else
+            {
+                // Verificar si no hay errores y mostrar el mensaje de éxito
+                if (Errors.Count == 0)
+                {
+                    string Cadena = "";
+                    Error error = new Error(Cadena, "El código se ejecutó correctamente");
+                    Errors.Add(error);
+                    Instrucciones.Clear();
+                }
+            }
+        }
+
+        // Comprueba si un identificador cumple con las restricciones especificadas.
+        bool EsIdentificadorValido(string identificador)
+        {
+            // Verifica que el identificador no comience con un número.
+            if (char.IsDigit(identificador[0]))
+            {
+                return false;
+            }
+
+            // Verifica que el identificador no contenga solo números.
+            if (Regex.IsMatch(identificador, @"^\d+$"))
+            {
+                return false;
+            }
+
+            // Verifica que el identificador no contenga guion medio al inicio.
+            if (identificador.StartsWith("-"))
+            {
+                return false;
+            }
+
+            // Agrega otras restricciones según tus necesidades.
+
+            return true;
         }
 
         // ARBOL 1: DECLARAR VARIABLES Y CONSTANTES //
         bool VarOrConst(List<Token> LToken)
         {
-
-            //SI ES UN TIPO DE DATO//
-            if (LToken[0].General() == "Tipo de Dato")
+            // Comprueba si el identificador es válido.
+            if (LToken.Count > 1 && LToken[1].General() == "Identificador")
             {
-                if(LToken.Count > 1 && LToken[1].Caracteres=="main")
+                if (EsIdentificadorValido(LToken[1].Caracteres))
                 {
-                    return true;
-                }
-                //SI ES UNA VARIABLE//
-                if (LToken.Count > 1 && LToken[1].General() == "Identificador")
-                {
-                    //SI ES EL FIN DE LA SENTENCIA//
-                    if (LToken.Count == 2)
+                    // Resto de tu lógica actual.
+                    //SI ES UN TIPO DE DATO//
+                    if (LToken[0].General() == "Tipo de Dato")
                     {
-                        return true;
-                    }
-                    //SI TIENE UN OPERADOR//
-                    else if (LToken.Count > 2 && LToken[2].General() == "Operador") // AGREGAR QUE OPERADORES //
-                    {
-                        bool Flag = false; int i = 3;
-                        while (i < LToken.Count)
+                        if (LToken.Count > 1 && LToken[1].Caracteres == "main")
                         {
-                            if ((LToken[i].General() == "Identificador" && i % 2 != 0) || (LToken[i].General() == "Constante" && i % 2 != 0))
+                            return true;
+                        }
+                        //SI ES UNA VARIABLE//
+                        if (LToken.Count > 1 && LToken[1].General() == "Identificador")
+                        {
+                            //SI ES EL FIN DE LA SENTENCIA//
+                            if (LToken.Count == 2)
                             {
-                                Flag = true;
-
+                                return true;
                             }
-                            else if ((LToken[i].General() == "Operador" && i % 2 == 0))
+                            //SI TIENE UN OPERADOR//
+                            else if (LToken.Count > 2 && LToken[2].General() == "Operador") // AGREGAR QUE OPERADORES //
                             {
-                                if (i == LToken.Count - 1)
+                                bool Flag = false; int i = 3;
+                                while (i < LToken.Count)
                                 {
-                                    Flag = false;
-                                }
-                                else
-                                {
-
-                                    Flag = true;
-                                }
-                            }
-                            else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == "("))
-                            {
-                                bool Sign = false;
-                                while (Sign != true)
-                                {
-
-                                    if ((LToken[i].General() == "Identificador" && i % 2 == 0) || (LToken[i].General() == "Constante" && i % 2 == 0))
+                                    if ((LToken[i].General() == "Identificador" && i % 2 != 0) || (LToken[i].General() == "Constante" && i % 2 != 0))
                                     {
-
                                         Flag = true;
+
                                     }
-                                    else if ((LToken[i].General() == "Operador" && i % 2 != 0))
+                                    else if ((LToken[i].General() == "Operador" && i % 2 == 0))
+                                    {
+                                        if (i == LToken.Count - 1)
+                                        {
+                                            Flag = false;
+                                        }
+                                        else
+                                        {
+
+                                            Flag = true;
+                                        }
+                                    }
+                                    else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == "("))
+                                    {
+                                        bool Sign = false;
+                                        while (Sign != true)
+                                        {
+
+                                            if ((LToken[i].General() == "Identificador" && i % 2 == 0) || (LToken[i].General() == "Constante" && i % 2 == 0))
+                                            {
+
+                                                Flag = true;
+                                            }
+                                            else if ((LToken[i].General() == "Operador" && i % 2 != 0))
+                                            {
+                                                if (i == LToken.Count - 1)
+                                                {
+                                                    Flag = false;
+                                                }
+                                                else
+                                                {
+                                                    Flag = true;
+                                                }
+                                            }
+                                            else if (i == LToken.Count - 1)
+                                            {
+                                                return false;
+                                            }
+                                            else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == ")"))
+                                            {
+                                                Sign = true;
+                                            }
+                                            i++;
+                                        }
+                                        if (Flag == false)
+                                        {
+                                            return Flag;
+                                        }
+                                    }
+
+                                    else if ((LToken[i].General() == "Operador" && i % 2 == 0))
                                     {
                                         if (i == LToken.Count - 1)
                                         {
@@ -802,60 +895,45 @@
                                             Flag = true;
                                         }
                                     }
-                                    else if (i == LToken.Count - 1)
+                                    else
                                     {
-                                        return false;
-                                    }
-                                    else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == ")"))
-                                    {
-                                        Sign = true;
+                                        Flag = false;
                                     }
                                     i++;
                                 }
-                                if (Flag == false)
-                                {
-                                    return Flag;
-                                }
-                            }
-
-                            else if ((LToken[i].General() == "Operador" && i % 2 == 0))
-                            {
-                                if (i == LToken.Count - 1)
-                                {
-                                    Flag = false;
-                                }
-                                else
-                                {
-                                    Flag = true;
-                                }
+                                return Flag;
                             }
                             else
                             {
-                                Flag = false;
+                                return false;
                             }
-                            i++;
                         }
-                        return Flag;
+                        else
+                        {
+                            return false;
+                        }
                     }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
+
                 }
                 else
                 {
                     return false;
                 }
             }
+
             return false;
         }
+
+
+
 
         // ARBOL 2: PALABRAS RESERVADAS //
         bool Pal(List<Token> LToken)
         {
             if (LToken[0].General() == "Palabra Reservada" || CFor != 0)
             {
-                
+
                 // IF //
                 if (LToken[0].Caracteres == "if")
                 {
@@ -953,12 +1031,12 @@
                 }
                 //ELSE//                
                 if (LToken[0].Caracteres == "else")
-                {   
-                    if(IF == false)
+                {
+                    if (IF == false)
                     {
                         return false;
                     }
-                    
+
                     if (LToken.Count == 1)
                     {
                         IF = false;
@@ -973,19 +1051,19 @@
                         }
                         return true;
                     }
-                    
+
                     //ELSE IF SIMPLE//
                     else if (LToken[1].Caracteres == "if")
                     {
-                        if(LToken.Count > 2 && (LToken[2].Caracteres=="("))
+                        if (LToken.Count > 2 && (LToken[2].Caracteres == "("))
                         {
                             if (LToken.Count > 3 && LToken[3].General() == "Identificador")
                             {
                                 if (LToken.Count > 4 && LToken[4].General() == "Operador")
                                 {
-                                    if (LToken.Count > 5 && (LToken[5].General()=="Identificador" || LToken[5].General()=="Constante"))
+                                    if (LToken.Count > 5 && (LToken[5].General() == "Identificador" || LToken[5].General() == "Constante"))
                                     {
-                                        if(LToken.Count > 6 && LToken[6].Caracteres==")")
+                                        if (LToken.Count > 6 && LToken[6].Caracteres == ")")
                                         {
                                             return true;
                                         }
@@ -1086,21 +1164,21 @@
                             if (LToken.Count > 2 && LToken[2].General() == "Tipo de Dato")
                             {
 
-                                
+
                                 if (LToken.Count > 3 && (LToken[3].General() == "Identificador"))
                                 {
 
                                     if (LToken.Count > 4 && LToken[4].General() == "Operador")
                                     {
-                                            if (LToken.Count > 5 && (LToken[5].General() == "Identificador" || LToken[5].General() == "Constante"))
-                                            {
-                                                CFor++;
-                                                return true;
-                                            }
-                                            else
-                                            {
-                                                return false;
-                                            }
+                                        if (LToken.Count > 5 && (LToken[5].General() == "Identificador" || LToken[5].General() == "Constante"))
+                                        {
+                                            CFor++;
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            return false;
+                                        }
                                     }
                                     else
                                     {
@@ -1114,7 +1192,7 @@
                             }
                             else if (LToken.Count > 2 && LToken[2].General() == "Identificador")
                             {
-                                
+
                                 if (LToken.Count > 3 && (LToken[3].General() == "Operador" && LToken[3].Caracteres == "="))
                                 {
                                     if (LToken.Count > 4 && (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante"))
@@ -1179,23 +1257,23 @@
                         CFor = 0;
                         if (LToken[0].General() == "Identificador")
                         {
-                                if (LToken.Count > 1 && LToken[1].General() == "Operador")
+                            if (LToken.Count > 1 && LToken[1].General() == "Operador")
+                            {
+                                if (LToken.Count > 2 && (LToken[2].General() == "Caracter" && LToken[2].Caracteres == ")"))
                                 {
-                                    if (LToken.Count > 2 && (LToken[2].General() == "Caracter" && LToken[2].Caracteres == ")"))
-                                    {
-                                        return true;
-                                    }
-                                    else
-                                    {
-                                        return false;
-                                    }
+                                    return true;
                                 }
                                 else
                                 {
                                     return false;
                                 }
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
-                       else if (LToken[0].General() == "Operador")
+                        else if (LToken[0].General() == "Operador")
                         {
                             if (LToken.Count > 1 && LToken[1].General() == "Identificador")
                             {
@@ -1215,9 +1293,9 @@
                         }
                     }
                 }
-                
+
                 //WHILE//
-                
+
                 if (LToken[0].Caracteres == "while")
                 {
                     if (LToken.Count > 1 && (LToken[1].Caracteres == "("))
@@ -1229,7 +1307,7 @@
                             {
                                 if (LToken.Count > 4 && (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante"))
                                 {
-                                    
+
                                     if (LToken.Count > 5 && LToken[5].Caracteres == ")")
                                     {
                                         return true;
@@ -1248,7 +1326,7 @@
                             {
                                 return false;
                             }
-                            
+
 
                         }
                         else if (LToken.Count > 2 && LToken[2].Caracteres == "(")
@@ -1315,7 +1393,7 @@
                         return false;
                     }
                 }
-                
+
                 //SWITCH//              
                 if (LToken[0].Caracteres == "switch")
                 {
@@ -1368,7 +1446,7 @@
                         bool FlagN = Int32.TryParse(LToken[1].Caracteres, out Num);
                         if (FlagN == true)
                         {
-                            if (LToken.Count==2)
+                            if (LToken.Count == 2)
                             {
                                 return true;
                             }
@@ -1376,7 +1454,8 @@
                             {
                                 return true;
                             }
-                            else if (LToken.Count > 3 && LToken[3].Caracteres == "break") {
+                            else if (LToken.Count > 3 && LToken[3].Caracteres == "break")
+                            {
                                 return true;
                             }
                             else
@@ -1419,13 +1498,13 @@
 
                 }
                 //COUT//
-                if(LToken[0].Caracteres=="cout")
+                if (LToken[0].Caracteres == "cout")
                 {
-                    if(LToken.Count > 1 && LToken[1].Caracteres=="<<")
+                    if (LToken.Count > 1 && LToken[1].Caracteres == "<<")
                     {
                         int i = 2;
-                        bool Flag=false;
-                        while(i < LToken.Count)
+                        bool Flag = false;
+                        while (i < LToken.Count)
                         {
                             if ((LToken[i].General() == "Identificador" || LToken[i].General() == "Cadena") && i % 2 == 0)
                             {
@@ -1464,7 +1543,7 @@
                         bool Flag = false;
                         while (i < LToken.Count)
                         {
-                            if (LToken[i].General() == "Identificador"  && i % 2 == 0)
+                            if (LToken[i].General() == "Identificador" && i % 2 == 0)
                             {
                                 Flag = true;
                             }
@@ -1493,106 +1572,106 @@
             return false;
         }
 
-            // ARBOL 3: VARIABLE //
-            bool Var(List<Token> LToken)
-            {
+        // ARBOL 3: VARIABLE //
+        bool Var(List<Token> LToken)
+        {
 
-                //SI ES UNA VARIABLE//
-                if (LToken[0].General() == "Identificador")
+            //SI ES UNA VARIABLE//
+            if (LToken[0].General() == "Identificador")
+            {
+                //SI TIENE UN OPERADOR//
+                if (LToken.Count > 1 && LToken[1].General() == "Operador") // AGREGAR QUE OPERADORES //
                 {
-                    //SI TIENE UN OPERADOR//
-                    if (LToken.Count > 1 && LToken[1].General() == "Operador") // AGREGAR QUE OPERADORES //
+                    bool Flag = false; int i = 2;
+                    if (LToken.Count > 2 && LToken[1].Caracteres == "++" || LToken[1].Caracteres == "--")
                     {
-                        bool Flag = false; int i = 2;
-                        if(LToken.Count > 2 && LToken[1].Caracteres=="++"|| LToken[1].Caracteres == "--")
+                        return true;
+                    }
+                    while (i < LToken.Count)
+                    {
+                        if ((LToken[i].General() == "Identificador" && i % 2 == 0) || (LToken[i].General() == "Constante" && i % 2 == 0))
                         {
-                            return true;
+                            Flag = true;
+
                         }
-                        while (i < LToken.Count)
+                        else if ((LToken[i].General() == "Operador" && i % 2 != 0))
                         {
-                            if ((LToken[i].General() == "Identificador" && i % 2 == 0) || (LToken[i].General() == "Constante" && i % 2 == 0))
+                            if (i == LToken.Count - 1)
                             {
-                                Flag = true;
+                                Flag = false;
 
                             }
-                            else if ((LToken[i].General() == "Operador" && i % 2 != 0))
+                            else
                             {
-                                if (i == LToken.Count - 1)
-                                {
-                                    Flag = false;
 
-                                }
-                                else
+                                Flag = true;
+                            }
+                        }
+                        else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == "("))
+                        {
+                            bool Sign = false;
+                            while (Sign != true)
+                            {
+
+                                if ((LToken[i].General() == "Identificador" && i % 2 != 0) || (LToken[i].General() == "Constante" && i % 2 != 0))
                                 {
 
                                     Flag = true;
                                 }
-                            }
-                            else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == "("))
-                            {
-                                bool Sign = false;
-                                while (Sign != true)
+                                else if ((LToken[i].General() == "Operador" && LToken[i + 1].General() == "Caracter"))
                                 {
-
-                                    if ((LToken[i].General() == "Identificador" && i % 2 != 0) || (LToken[i].General() == "Constante" && i % 2 != 0))
-                                    {
-
-                                        Flag = true;
-                                    }
-                                    else if ((LToken[i].General() == "Operador" && LToken[i + 1].General() == "Caracter"))
+                                    return false;
+                                }
+                                else if ((LToken[i].General() == "Operador" && i % 2 == 0))
+                                {
+                                    if (i == LToken.Count - 1)
                                     {
                                         return false;
+
                                     }
-                                    else if ((LToken[i].General() == "Operador" && i % 2 == 0))
+                                    else
                                     {
-                                        if (i == LToken.Count - 1)
-                                        {
-                                            return false;
-
-                                        }
-                                        else
-                                        {
-                                            Flag = true;
-                                        }
+                                        Flag = true;
                                     }
-
-                                    else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == ")"))
-                                    {
-                                        Sign = true;
-                                    }
-                                    else if (i == LToken.Count - 1)
-                                    {
-
-                                         return false;
-
-                                    }
-
-                                    i++;
                                 }
-                                if (Flag == false)
+
+                                else if ((LToken[i].General() == "Caracter" && LToken[i].Caracteres == ")"))
                                 {
-                                    return Flag;
+                                    Sign = true;
                                 }
-                            }
-                            else
-                            {
-                                Flag = false;
-                            }
-                            i++;
-                        }
-                        return Flag;
-                    }
-                    else
-                    {
+                                else if (i == LToken.Count - 1)
+                                {
 
-                        return false;
+                                    return false;
+
+                                }
+
+                                i++;
+                            }
+                            if (Flag == false)
+                            {
+                                return Flag;
+                            }
+                        }
+                        else
+                        {
+                            Flag = false;
+                        }
+                        i++;
                     }
+                    return Flag;
                 }
                 else
                 {
+
                     return false;
                 }
             }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 

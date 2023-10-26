@@ -15,21 +15,21 @@ cin >> "a";
 cout << id;
 
 for ( int i = 0; i < 5; i ++ ) {
-float a
-a + b
+float a;
+a + b;
 }
 
 int i = 0;
 while ( i < 5 ) {
-a = b
+a = b;
 }
 
 int i = ;
 while ( i | 5 ) {
-a = b
+b = c;
 }
 
-int holaMundo = j
+int holaMundo = j;
 
 int a;
 int b;
@@ -40,13 +40,16 @@ float d;
 while ( d == 1 ) {
 
         int ja;
-		resp = 1
+		resp = 1;
 
 		for ( i = n; i >= 1; -- i )
 		{
 
-				int ja ° resp
+				int ja ° resp;
 
 		}
 
 	}
+
+int -i;
+int @i;
