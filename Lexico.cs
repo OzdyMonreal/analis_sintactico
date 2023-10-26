@@ -1,4 +1,4 @@
-﻿namespace Analizador_Lexico__Traductor_
+namespace Analizador_Lexico__Traductor_
 {
     using System;
     internal class Lexico
@@ -212,8 +212,6 @@
                             //CARACTER NO VALIDO//
                             else
                             {
-                                Error error = new Error(StringAux, "Error Léxico. Token NO valido.");
-                                Errors.Add(error);
                                 AddToken(StringAux, "Caracter No Valido", "NULL");
                             }
                             
@@ -250,6 +248,18 @@
                     Errors.Add(error);
                 }
             }
+            else
+            {
+                // Verificar si no hay errores y mostrar el mensaje de éxito
+                if (Errors.Count == 0)
+                {
+                    string Cadena = "";
+                    Error error = new(Cadena, "El codigo se ejecuto correctamente");
+                    Errors.Add(error);
+                    Instrucciones.Clear();
+                }
+            }
+
             return LTokens;
 
 
@@ -668,16 +678,16 @@
             }
         }
 
-        //ANALIZADOR SINTACTICO//
+        //////////ANALIZADOR SINTACTICO///////////////////////////////////////////////////////////
 
         //TIPO DE ARBOL//
+        // TIPO DE ARBOL //
         void Sintactico()
         {
-          
             if (Instrucciones[0].Caracteres == "{" || Instrucciones[0].Caracteres == "}")
             {
                 Instrucciones.Clear();
-            }       
+            }
             else if (Instrucciones[0].General() == "Tipo de Dato" && CFor == 0)
             {
                 bool Flag = VarOrConst(Instrucciones);
@@ -688,7 +698,7 @@
                     {
                         Cadena += Instrucciones[i].Caracteres + " ";
                     }
-                    Error error = new Error(Cadena, "La declaracion de un nuevo Tipo de Dato no es correcta");
+                    Error error = new Error(Cadena, "La declaración de un nuevo Tipo de Dato no es correcta");
                     Errors.Add(error);
                     Instrucciones.Clear();
                 }
@@ -716,7 +726,7 @@
                     Instrucciones.Clear();
                 }
             }
-            else if (Instrucciones[0].General() == "Palabra Reservada" || CFor>0)
+            else if (Instrucciones[0].General() == "Palabra Reservada" || CFor > 0)
             {
                 bool Flag = Pal(Instrucciones);
                 if (Flag == false)
@@ -726,7 +736,7 @@
                     {
                         Cadena += Instrucciones[i].Caracteres + " ";
                     }
-                    Error error = new Error(Cadena, "El uso de la palabra reservada no es valido");
+                    Error error = new Error(Cadena, "El uso de la palabra reservada no es válido");
                     Errors.Add(error);
                     Instrucciones.Clear();
                 }
@@ -735,8 +745,19 @@
                     Instrucciones.Clear();
                 }
             }
-            
+            else
+            {
+                // Verificar si no hay errores y mostrar el mensaje de éxito
+                if (Errors.Count == 0)
+                {
+                    string Cadena = "";
+                    Error error = new(Cadena, "El codigo se ejecuto correctamente");
+                    Errors.Add(error);
+                    Instrucciones.Clear();
+                }
+            }
         }
+
 
         // ARBOL 1: DECLARAR VARIABLES Y CONSTANTES //
         bool VarOrConst(List<Token> LToken)
