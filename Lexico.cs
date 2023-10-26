@@ -212,6 +212,8 @@
                             //CARACTER NO VALIDO//
                             else
                             {
+                                Error error = new Error(StringAux, "Error Léxico. Token NO valido.");
+                                Errors.Add(error);
                                 AddToken(StringAux, "Caracter No Valido", "NULL");
                             }
                             
