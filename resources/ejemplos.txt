@@ -50,6 +50,3 @@ while ( d == 1 ) {
 		}
 
 	}
-
-int -i;
-int @i;
