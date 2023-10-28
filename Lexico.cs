@@ -1,4 +1,4 @@
-﻿namespace Analizador_Lexico__Traductor_
+namespace Analizador_Lexico__Traductor_
 {
     using System;
     using System.Text.RegularExpressions;
@@ -333,12 +333,12 @@
             }
             else if (str == ">")
             {
-                AddToken(str, "Operador de Comparación", "Operador");
+                AddToken(str, "Operador de Comparación", "Operador Comparacion");
                 return true;
             }
             else if (str == "<")
             {
-                AddToken(str, "Operador de Comparación", "Operador");
+                AddToken(str, "Operador de Comparación", "Operador Comparacion");
                 return true;
             }
             else if (str == "=")
@@ -363,22 +363,22 @@
             }
             else if (str == "==")
             {
-                AddToken(str, "Operador de Igualdad", "Operador");
+                AddToken(str, "Operador de Igualdad", "Operador Comparacion");
                 return true;
             }
             else if (str == "<=")
             {
-                AddToken(str, "Operador Menor o Igual", "Operador");
+                AddToken(str, "Operador Menor o Igual", "Operador Comparacion");
                 return true;
             }
             else if (str == ">=")
             {
-                AddToken(str, "Operador Mayor o Igual", "Operador");
+                AddToken(str, "Operador Mayor o Igual", "Operador Comparacion");
                 return true;
             }
             else if (str == "!=")
             {
-                AddToken(str, "Operador Diferente De", "Operador");
+                AddToken(str, "Operador Diferente De", "Operador Comparacion");
                 return true;
             }
             else if (str == "--")
@@ -942,7 +942,7 @@
                         // IF SIMPLE //
                         if ((LToken.Count > 2 && LToken[2].General() == "Identificador"))
                         {
-                            if (LToken.Count > 3 && (LToken[3].General() == "Operador"))
+                            if (LToken.Count > 3 && (LToken[3].General() == "Operador Comparacion"))
                             {
                                 if (LToken.Count > 4 && (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante"))
                                 {
@@ -981,7 +981,7 @@
                                         {
                                             Flag = true;
                                         }
-                                        else if ((LToken[GeneralC].General() == "Operador" && GeneralC % 2 == 0))
+                                        else if ((LToken[GeneralC].General() == "Operador Comparacion" && GeneralC % 2 == 0))
                                         {
                                             if (GeneralC == LToken.Count - 1)
                                             {
@@ -1059,7 +1059,7 @@
                         {
                             if (LToken.Count > 3 && LToken[3].General() == "Identificador")
                             {
-                                if (LToken.Count > 4 && LToken[4].General() == "Operador")
+                                if (LToken.Count > 4 && LToken[4].General() == "Operador Comparacion")
                                 {
                                     if (LToken.Count > 5 && (LToken[5].General() == "Identificador" || LToken[5].General() == "Constante"))
                                     {
@@ -1098,7 +1098,7 @@
                                             {
                                                 Flag = true;
                                             }
-                                            else if ((LToken[GeneralC].General() == "Operador" && GeneralC % 2 != 0))
+                                            else if ((LToken[GeneralC].General() == "Operador Comparacion" && GeneralC % 2 != 0))
                                             {
                                                 if (GeneralC == LToken.Count - 1)
                                                 {
@@ -1168,7 +1168,7 @@
                                 if (LToken.Count > 3 && (LToken[3].General() == "Identificador"))
                                 {
 
-                                    if (LToken.Count > 4 && LToken[4].General() == "Operador")
+                                    if (LToken.Count > 4 && LToken[4].General() == "Operador" && LToken[4].Caracteres == "=")
                                     {
                                         if (LToken.Count > 5 && (LToken[5].General() == "Identificador" || LToken[5].General() == "Constante"))
                                         {
@@ -1226,7 +1226,7 @@
                     {
                         if ((LToken.Count > 0 && LToken[0].General() == "Identificador"))
                         {
-                            if (LToken.Count > 1 && LToken[1].General() == "Operador")
+                            if (LToken.Count > 1 && LToken[1].General() == "Operador Comparacion")
                             {
                                 if (LToken.Count > 2 && (LToken[2].General() == "Variable" || LToken[2].General() == "Constante"))
                                 {
@@ -1257,7 +1257,7 @@
                         CFor = 0;
                         if (LToken[0].General() == "Identificador")
                         {
-                            if (LToken.Count > 1 && LToken[1].General() == "Operador")
+                            if (LToken.Count > 1 && LToken[1].General() == "Operador" && (LToken[1].Caracteres == "++" || LToken[1].Caracteres == "-"))
                             {
                                 if (LToken.Count > 2 && (LToken[2].General() == "Caracter" && LToken[2].Caracteres == ")"))
                                 {
@@ -1273,7 +1273,7 @@
                                 return false;
                             }
                         }
-                        else if (LToken[0].General() == "Operador")
+                        else if (LToken[0].General() == "Operador" && (LToken[0].Caracteres == "++" || LToken[0].Caracteres == "-"))
                         {
                             if (LToken.Count > 1 && LToken[1].General() == "Identificador")
                             {
@@ -1303,7 +1303,7 @@
                         // WHILE SIMPLE //
                         if (LToken.Count > 2 && LToken[2].General() == "Identificador")
                         {
-                            if (LToken.Count > 3 && LToken[3].General() == "Operador")
+                            if (LToken.Count > 3 && LToken[3].General() == "Operador Comparacion")
                             {
                                 if (LToken.Count > 4 && (LToken[4].General() == "Identificador" || LToken[4].General() == "Constante"))
                                 {
@@ -1345,7 +1345,7 @@
                                         {
                                             Flag = true;
                                         }
-                                        else if ((LToken[GeneralC].General() == "Operador" && GeneralC % 2 == 0))
+                                        else if ((LToken[GeneralC].General() == "Operador Comparacion" && GeneralC % 2 == 0))
                                         {
                                             if (GeneralC == LToken.Count - 1)
                                             {
