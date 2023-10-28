@@ -239,56 +239,76 @@ namespace Analizador_Lexico__Traductor_
 
             if (CCorchetes != 0)
             {
+                // Comprueba si CCorchetes no es igual a cero, lo que indica la presencia de corchetes en el código.
+
                 if (CCorchetes < 0)
                 {
+                    // Si hay más corchetes de cierre que de apertura, crea un objeto Error con un mensaje de error y lo agrega a la lista Errors.
                     Error error = new Error("}", "Existen mas corchetes de cierre que de apertura.");
                     Errors.Add(error);
                 }
                 else
                 {
+                    // Si hay más corchetes de apertura que de cierre, crea un objeto Error con un mensaje de error y lo agrega a la lista Errors.
                     Error error = new Error("{", "Existen mas corchetes de apertura que de cierre.");
                     Errors.Add(error);
                 }
-
             }
+
             if (CParentesis != 0)
             {
+                // Comprueba si CParentesis no es igual a cero, lo que indica la presencia de paréntesis en el código.
+
                 if (CParentesis < 0)
                 {
+                    // Si hay más paréntesis de cierre que de apertura, crea un objeto Error con un mensaje de error y lo agrega a la lista Errors.
                     Error error = new Error(")", "Existen mas parentesis de cierre que de apertura.");
                     Errors.Add(error);
                 }
                 else
                 {
+                    // Si hay más paréntesis de apertura que de cierre, crea un objeto Error con un mensaje de error y lo agrega a la lista Errors.
                     Error error = new Error("(", "Existen mas parentesis de apertura que de cierre.");
                     Errors.Add(error);
                 }
             }
             else
             {
-                // Verificar si no hay errores y mostrar el mensaje de éxito
-                if (Errors.Count == 0)
-                {
-                    string Cadena = "";
-                    Error error = new(Cadena, "El codigo se ejecuto correctamente");
-                    Errors.Add(error);
-                    Instrucciones.Clear();
-                }
+                // Si no se encontraron errores de corchetes o paréntesis y la lista de Errors está vacía, se ejecuta este bloque.
+
+                // Crea un mensaje de éxito y lo agrega a la lista Errors.
+                string Cadena = "";
+                Error error = new Error(Cadena, "El código se ejecuto correctamente");
+                Errors.Add(error);
+
+                // Limpia la lista Instrucciones.
+                Instrucciones.Clear();
             }
 
+            // Retorna el valor de LTokens al final de la función.
             return LTokens;
 
 
-        }
-
         public void AddToken(string NewCharacter, string NewType, string GeneralType)
         {
+            // Este es un método público llamado AddToken que toma tres parámetros: NewCharacter, NewType y GeneralType.
+
+            // Se crea un objeto Token llamado Token1 con los valores proporcionados en los parámetros.
             Token Token1 = new Token(NewCharacter, NewType, GeneralType);
+
+            // El objeto Token1 se agrega a una lista llamada LTokens.
             LTokens.Add(Token1);
+
+            // También se agrega el objeto Token1 a otra lista llamada Instrucciones.
             Instrucciones.Add(Token1);
+
+            // Se establece la variable StringAux como una cadena vacía.
             StringAux = "";
+
+            // Se establece la variable State en 0.
             State = 0;
         }
+
 
         //FUNCIONES DE VALIDACION//
 
@@ -699,79 +719,130 @@ namespace Analizador_Lexico__Traductor_
         //TIPO DE ARBOL
         void Sintactico()
         {
+            // Este es un método llamado Sintactico.
+
             if (Instrucciones[0].Caracteres == "{" || Instrucciones[0].Caracteres == "}")
             {
+                // Si la primera instrucción en la lista Instrucciones es "{" o "}", entonces se borra la lista Instrucciones.
                 Instrucciones.Clear();
             }
             else if (Instrucciones[0].General() == "Tipo de Dato" && CFor == 0)
             {
+                // Si la primera instrucción en la lista Instrucciones es de tipo de dato y la variable CFor es igual a 0, se ejecuta el siguiente bloque.
+
+                // Llama a la función VarOrConst con la lista Instrucciones como argumento y almacena el resultado en Flag.
                 bool Flag = VarOrConst(Instrucciones);
+
                 if (Flag == false)
                 {
+                    // Si Flag es false, significa que la declaración de un nuevo tipo de dato no es correcta.
+
+                    // Concatena las instrucciones en Instrucciones en una cadena llamada Cadena.
                     string Cadena = "";
                     for (int i = 0; i < Instrucciones.Count; i++)
                     {
                         Cadena += Instrucciones[i].Caracteres + " ";
                     }
+
+                    // Crea un objeto Error con un mensaje de error y lo agrega a la lista Errors.
                     Error error = new Error(Cadena, "La declaración de un nuevo Tipo de Dato no es correcta");
                     Errors.Add(error);
+
+                    // Limpia la lista Instrucciones.
                     Instrucciones.Clear();
                 }
                 else
                 {
+                    // Si Flag es true, se considera que la declaración de tipo de dato es correcta y se limpia Instrucciones.
                     Instrucciones.Clear();
                 }
             }
             else if (Instrucciones[0].General() == "Identificador" && CFor == 0)
             {
+                // Si la primera instrucción en Instrucciones es un identificador y CFor es igual a 0, se ejecuta este bloque.
+
+                // Llama a la función Var con la lista Instrucciones como argumento y almacena el resultado en Flag.
                 bool Flag = Var(Instrucciones);
+
                 if (Flag == false)
                 {
+                    // Si Flag es false, significa que el uso de la variable no es correcto.
+
+                    // Concatena las instrucciones en Instrucciones en una cadena llamada Cadena.
                     string Cadena = "";
                     for (int i = 0; i < Instrucciones.Count; i++)
                     {
                         Cadena += Instrucciones[i].Caracteres + " ";
                     }
+
+                    // Crea un objeto Error con un mensaje de error y lo agrega a la lista Errors.
                     Error error = new Error(Cadena, "El uso de la Variable no es correcto");
                     Errors.Add(error);
+
+                    // Limpia la lista Instrucciones.
                     Instrucciones.Clear();
                 }
                 else
                 {
+                    // Si Flag es true, se considera que el uso de la variable es correcto y se limpia Instrucciones.
                     Instrucciones.Clear();
                 }
             }
             else if (Instrucciones[0].General() == "Palabra Reservada" || CFor > 0)
             {
+                // Si la primera instrucción en Instrucciones es una palabra reservada o CFor es mayor que 0, se ejecuta este bloque.
+
+                // Llama a la función Pal con la lista Instrucciones como argumento y almacena el resultado en Flag.
                 bool Flag = Pal(Instrucciones);
+
                 if (Flag == false)
                 {
+                    // Si Flag es false, significa que el uso de la palabra reservada no es válido.
+
+                    // Concatena las instrucciones en Instrucciones en una cadena llamada Cadena.
                     string Cadena = "";
                     for (int i = 0; i < Instrucciones.Count; i++)
                     {
                         Cadena += Instrucciones[i].Caracteres + " ";
                     }
+
+                    // Crea un objeto Error con un mensaje de error y lo agrega a la lista Errors.
                     Error error = new Error(Cadena, "El uso de la palabra reservada no es válido");
                     Errors.Add(error);
+
+                    // Limpia la lista Instrucciones.
                     Instrucciones.Clear();
                 }
                 else
                 {
+                    // Si Flag es true, se considera que el uso de la palabra reservada es válido y se limpia Instrucciones.
                     Instrucciones.Clear();
                 }
             }
             else
             {
-                // Verificar si no hay errores y mostrar el mensaje de éxito
+                // Si ninguno de los casos anteriores se cumple, se llega a este bloque.
+
+                // Verifica si no hay errores y muestra un mensaje de éxito.
                 if (Errors.Count == 0)
                 {
+                    // Concatena las instrucciones en Instrucciones en una cadena llamada Cadena.
                     string Cadena = "";
+                    for (int i = 0; i < Instrucciones.Count; i++)
+                    {
+                        Cadena += Instrucciones[i].Caracteres + " ";
+                    }
+
+                    // Crea un objeto Error con un mensaje de éxito y lo agrega a la lista Errors.
                     Error error = new Error(Cadena, "El código se ejecutó correctamente");
                     Errors.Add(error);
+
+                    // Limpia la lista Instrucciones.
                     Instrucciones.Clear();
                 }
             }
         }
+
 
         // Comprueba si un identificador cumple con las restricciones especificadas.
         bool EsIdentificadorValido(string identificador)
@@ -1674,4 +1745,3 @@ namespace Analizador_Lexico__Traductor_
         }
     }
 }
-
